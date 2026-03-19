@@ -1,0 +1,166 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #000000;
+    /* Чёрный фон */
+    color: #244224;
+    /* Темно-зеленый цвет текста */
+    font-family: 'Courier New', Courier, monospace;
+    /* Стиль печатной машинки */
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Логотипы */
+.logo-header,
+.logo-footer {
+    text-align: center;
+    margin: 20px 0;
+    opacity: 0.9;
+}
+
+.logo pre {
+    display: inline-block;
+    text-align: left;
+    border: 1px solid #244224;
+    padding: 10px;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    background-color: #0a0a0a;
+}
+
+/* Стили секций */
+.section-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-bottom: 2px solid #244224;
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    text-shadow: 0 0 5px #244224;
+}
+
+/* Секция ввода ключей */
+.key-section {
+    margin-bottom: 40px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.key-input {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px 15px;
+    background-color: #000000;
+    border: 2px solid #244224;
+    color: #244224;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.2rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.key-input:focus {
+    border-color: #3a6e3a;
+    box-shadow: 0 0 10px #244224;
+}
+
+.key-input::placeholder {
+    color: #1a3a1a;
+    font-size: 0.9rem;
+}
+
+.soon-message {
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 30px;
+    border: 3px dashed #244224;
+    letter-spacing: 10px;
+    animation: blink 2s infinite;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+}
+
+/* Секция руководства */
+.manual-section {
+    margin-top: auto;
+    /* Помогает прижать футер */
+    padding-top: 30px;
+    border-top: 1px solid #244224;
+}
+
+.manual-title {
+    cursor: default;
+}
+
+.manual-content {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #244224;
+    background-color: #050505;
+}
+
+.manual-content h3 {
+    font-size: 1.2rem;
+    margin: 20px 0 15px 0;
+    letter-spacing: 2px;
+    border-left: 4px solid #244224;
+    padding-left: 10px;
+}
+
+.manual-content ul,
+.manual-content ol {
+    padding-left: 30px;
+}
+
+.manual-content li {
+    margin-bottom: 10px;
+}
+
+.term {
+    font-weight: bold;
+    color: #2f6b2f;
+    /* Чуть ярче для терминов */
+    text-decoration: underline;
+    text-decoration-style: dotted;
+}
+
+/* Футер */
+.logo-footer {
+    margin-top: 40px;
+}
+
+/* Утилиты */
+.hidden {
+    display: none;
+}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARG | Доступ к данным</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Шапка с логотипом (сверху) -->
+        <header class="logo-header">
+            <div class="logo">
+                <!-- Простой ASCII-логотип в стиле ARG -->
+                <pre>
+╔══════════════════╗
+║  ENCRYPTED.DATA  ║
+║    ╔═══╗ ╔═══╗   ║
+║    ║ 1 ║ ║ 2 ║   ║
+╚══════════════════╝
+                </pre>
+            </div>
+        </header>
+
+        <!-- Основной блок с ключами -->
+        <section class="key-section">
+            <h2 class="section-title">:: ВВОД КЛЮЧЕЙ ДОСТУПА ::</h2>
+
+            <div id="key-inputs-container">
+                <!-- Поля будут добавляться сюда через JavaScript -->
+            </div>
+
+            <!-- Сообщение для будущих ключей -->
+            <div id="soon-message" class="soon-message hidden"></div>
+        </section>
+
+        <!-- Блок руководства (виден только часть заголовка при старте) -->
+        <section class="manual-section">
+            <h2 class="section-title manual-title">:: РУКОВОДСТВО ИСПЫТУЕМОГО ::</h2>
+
+            <div class="manual-content">
+                <div class="terms">
+                    <h3>КЛЮЧЕВЫЕ ТЕРМИНЫ И ОПРЕДЕЛЕНИЯ</h3>
+                    <ul>
+                        <li><span class="term">[ШИФР]</span> — метод преобразования данных для сокрытия от
+                            непосвященных.</li>
+                        <li><span class="term">[АРГ]</span> — Alternate Reality Game, игра, стирающая грань с
+                            реальностью.</li>
+                        <li><span class="term">[ПЕЧАТНАЯ МАШИНКА]</span> — устройство, оставившее нам этот шрифт.</li>
+                    </ul>
+                </div>
+
+                <div class="rules">
+                    <h3>ПРАВИЛА</h3>
+                    <ol>
+                        <li>Найденные ключи вводятся строго в нижнем регистре.</li>
+                        <li>Запрещено передавать содержимое руководства непосвященным.</li>
+                        <li>Символ "_" используется только в составе ключей третьего уровня.</li>
+                        <li>Если вы видите "Soon", значит, вы выполнили все текущие задачи. Ожидайте.</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Футер с логотипом (дублируем для эстетики) -->
+        <footer class="logo-footer">
+            <div class="logo">
+                <pre>
+╔══════════════════╗
+║  SYSTEM: OFFLINE ║
+║  STATUS: ACTIVE  ║
+╚══════════════════╝
+                </pre>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Подключаем скрипт -->
+    <script src="script.js"></script>
+</body>
+
+</html>
