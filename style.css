@@ -6,11 +6,8 @@
 
 body {
     background-color: #000000;
-    /* Чёрный фон */
     color: #244224;
-    /* Темно-зеленый цвет текста */
     font-family: 'Courier New', Courier, monospace;
-    /* Стиль печатной машинки */
     line-height: 1.6;
     min-height: 100vh;
     display: flex;
@@ -33,6 +30,12 @@ body {
     text-align: center;
     margin: 20px 0;
     opacity: 0.9;
+}
+
+.logo img {
+    max-width: 200px;
+    border: 2px solid #244224;
+    padding: 10px;
 }
 
 .logo pre {
@@ -59,7 +62,11 @@ body {
 
 /* Секция ввода ключей */
 .key-section {
-    margin-bottom: 40px;
+    min-height: 65vh;
+    /* Занимает 65% экрана, чтобы заголовок руководства был виден */
+    margin-bottom: 10px;
+    padding-top: 30px;
+    /* Отступ сверху, чтобы поле не прилипало к логотипу */
 }
 
 .input-group {
@@ -89,6 +96,10 @@ body {
     font-size: 0.9rem;
 }
 
+.key-input.error {
+    border-color: #8b0000;
+}
+
 .soon-message {
     font-size: 3rem;
     font-weight: bold;
@@ -113,14 +124,20 @@ body {
 
 /* Секция руководства */
 .manual-section {
-    margin-top: auto;
-    /* Помогает прижать футер */
-    padding-top: 30px;
+    margin-top: 0;
+    padding-top: 10px;
     border-top: 1px solid #244224;
+    position: relative;
+    top: -1px;
 }
 
 .manual-title {
-    cursor: default;
+    margin-bottom: 5px;
+    position: relative;
+    z-index: 10;
+    background-color: #000000;
+    padding: 10px 0;
+    border-bottom: 2px solid #244224;
 }
 
 .manual-content {
@@ -150,7 +167,6 @@ body {
 .term {
     font-weight: bold;
     color: #2f6b2f;
-    /* Чуть ярче для терминов */
     text-decoration: underline;
     text-decoration-style: dotted;
 }
@@ -163,29 +179,4 @@ body {
 /* Утилиты */
 .hidden {
     display: none;
-}
-
-/* Увеличиваем высоту верхнего блока, чтобы руководство оказалось внизу */
-.key-section {
-    min-height: 80vh;
-    /* Занимает почти весь экран */
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-}
-
-/* Чтобы содержимое руководства не было видно сразу, но заголовок был */
-.manual-section {
-    margin-top: 0;
-    /* Убираем лишний отступ сверху */
-}
-
-.manual-content {
-    margin-top: 30px;
-    /* Небольшой отступ, но он уже ниже видимой области */
-}
-
-/* Стили для поля ввода после ошибки (уже есть, но на всякий случай) */
-.key-input.error {
-    border-color: #8b0000;
 }
