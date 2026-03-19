@@ -171,8 +171,6 @@ body {
     /* Занимает почти весь экран */
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    /* Поля ввода по центру по вертикали */
     margin-bottom: 20px;
 }
 

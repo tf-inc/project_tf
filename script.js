@@ -36,7 +36,7 @@ function createInputElement(placeholderText, level) {
     const input = document.createElement('input');
     input.type = 'text';
     input.className = 'key-input';
-    input.placeholder = `Введите ключ ${level}`;
+    input.placeholder = `Введите ключ ${level} (Enter для проверки)`;
     input.dataset.level = level;
 
     input.addEventListener('keypress', (e) => {
