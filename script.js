@@ -98,6 +98,7 @@ function showNextInput(level) {
     inputsContainer.appendChild(nextInput);
     currentLevel = level;
     nextInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    nextInput.querySelector('.key-input').focus();
 }
 
 function showSoonMessage() {
