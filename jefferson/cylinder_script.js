@@ -19,7 +19,11 @@ class JeffersonCylinder {
         this.draw();
         this.updateDiskControls();
 
-
+        this.activeDisk = null;
+        this.isDragging = false;
+        this.lastMouseY = 0;
+        this.velocity = 0;
+        this.animationFrame = null;
     }
 
     initDisks() {
@@ -48,7 +52,7 @@ class JeffersonCylinder {
     }
 
     getCharAt(diskIndex, rowOffset) {
-        const position = this.diskPositions[diskIndex];
+        const position = Math.floor(this.diskPositions[diskIndex]);
         let charIndex = (position + rowOffset) % this.alphabet.length;
         if (charIndex < 0) charIndex += this.alphabet.length;
         return this.disks[diskIndex][charIndex];
@@ -76,7 +80,8 @@ class JeffersonCylinder {
             // Рисуем строки: ряд -2, -1, 0, +1, +2
             for (let row = -2; row <= 2; row++) {
                 const char = this.getCharAt(i, row);
-                const y = centerY + row * this.rowHeight;
+                const offset = this.diskPositions[i] % 1;
+                const y = centerY + (row - offset) * this.rowHeight;
 
                 // Прозрачность: центральный ряд — полная, дальше — тусклее
                 let opacity;
@@ -191,8 +196,90 @@ class JeffersonCylinder {
         if (randomizeBtn) {
             randomizeBtn.addEventListener('click', () => this.randomizePositions());
         }
+
+        this.canvas.addEventListener('mousedown', (e) => {
+            const rect = this.canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const diskIndex = this.getDiskIndexFromX(x);
+            if (diskIndex !== null) {
+                this.activeDisk = diskIndex;
+                this.isDragging = true;
+                this.lastMouseY = y;
+                this.velocity = 0;
+            }
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (!this.isDragging || this.activeDisk === null) return;
+
+            const rect = this.canvas.getBoundingClientRect();
+            const y = e.clientY - rect.top;
+
+            const deltaY = this.lastMouseY - y;
+
+            // Чем больше движение — тем больше вращение
+            const rotation = deltaY / 20;
+
+            this.diskPositions[this.activeDisk] += rotation;
+
+            // сохраняем скорость (для инерции)
+            this.velocity = rotation;
+
+            this.lastMouseY = y;
+
+            this.normalizeDisk(this.activeDisk);
+            this.draw();
+        });
+
+        window.addEventListener('mouseup', () => {
+            if (this.isDragging) {
+                this.isDragging = false;
+                this.startInertia();
+            }
+        });
+    }
+
+    getDiskIndexFromX(x) {
+        const relativeX = x - this.startX;
+        if (relativeX < 0) return null;
+
+        const index = Math.floor(relativeX / this.diskWidth);
+        if (index >= 0 && index < this.numDisks) return index;
+
+        return null;
+    }
+
+    normalizeDisk(index) {
+        const len = this.alphabet.length;
+        this.diskPositions[index] = ((this.diskPositions[index] % len) + len) % len;
+    }
+
+    startInertia() {
+        const friction = 0.95;
+
+        const animate = () => {
+            if (Math.abs(this.velocity) < 0.001) {
+                this.velocity = 0;
+                return;
+            }
+
+            this.diskPositions[this.activeDisk] += this.velocity;
+            this.normalizeDisk(this.activeDisk);
+
+            this.velocity *= friction;
+
+            this.draw();
+
+            this.animationFrame = requestAnimationFrame(animate);
+        };
+
+        animate();
     }
 }
+
+
 
 // Запуск при загрузке
 document.addEventListener('DOMContentLoaded', () => {
