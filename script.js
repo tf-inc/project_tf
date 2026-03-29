@@ -3,7 +3,7 @@ const encryptedKey1 = [53, 55, 55, 53, 53, 55];
 
 const encryptedKey2 = [99, 97];
 
-const encryptedKey3 = [50, 56, 55, 49, 48, 49, 95, 115, 111, 110, 105, 99, 95, 50, 48, 48, 49];
+const encryptedKey3 = "=EDMwIzXjlmbvN3XxQTM1kjM";
 
 const maxKey = 3;
 
@@ -21,16 +21,14 @@ function encryptKey3(plainKey) {
     });
 }
 
-function decryptKey3(encryptedArray) {
-    return encryptedArray.map((code, index) => {
-        return String.fromCharCode(code ^ index);
-    }).join('');
+function decryptKey3() {
+    return atob(encryptedKey3.split('').reverse().join(''));
 }
 
 const CORRECT_KEYS = {
     1: decryptKey1(),
     2: decryptKey2(),
-    3: decryptKey3(encryptedKey3)
+    3: decryptKey3()
 };
 
 let currentLevel = 0;
@@ -100,7 +98,6 @@ function showSoonMessage() {
 document.addEventListener('DOMContentLoaded', () => {
     const firstInput = createInputElement('Введите ключ 1', 1);
     inputsContainer.appendChild(firstInput);
-    console.log('Ключ 3:', CORRECT_KEYS[3]);
     currentLevel = 1;
 
     setTimeout(() => {
@@ -108,13 +105,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 100);
 });
 
-function generateEncryptedKey3() {
-    const plainKey = "295141_sonic_2001";
-    const encrypted = plainKey.split('').map((char, index) => {
-        return char.charCodeAt(0) ^ index;
-    });
-    console.log('encryptedKey3 = [' + encrypted.join(', ') + ']');
-    return encrypted;
-}
 
-generateEncryptedKey3();
