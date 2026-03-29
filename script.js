@@ -25,6 +25,14 @@ function decryptKey3() {
     return atob(encryptedKey3.split('').reverse().join(''));
 }
 
+function normalizeKey(key) {
+    const parts = key.split('_');
+    if (parts.length >= 3 && parts[1].toLowerCase() === 'sonic') {
+        return parts[0] + '_sonic_' + parts.slice(2).join('_');
+    }
+    return key;
+}
+
 const CORRECT_KEYS = {
     1: decryptKey1(),
     2: decryptKey2(),
@@ -58,7 +66,11 @@ function createInputElement(placeholderText, level) {
 
 function handleInputCheck(inputElement) {
     const level = parseInt(inputElement.dataset.level);
-    const enteredValue = inputElement.value.trim();
+    let enteredValue = inputElement.value.trim();
+
+    if (level === 3) {
+        enteredValue = normalizeKey(enteredValue);
+    }
 
     if (enteredValue === CORRECT_KEYS[level]) {
         if (level === maxKey) {
