@@ -22,7 +22,7 @@ class JeffersonCylinder {
         this.activeDisk = null;
         this.isDragging = false;
         this.lastMouseY = 0;
-        this.velocity = 0;
+        this.velocities = new Array(this.numDisks).fill(0);
         this.animationFrame = null;
     }
 
@@ -219,13 +219,10 @@ class JeffersonCylinder {
 
             const deltaY = this.lastMouseY - y;
 
-            // Чем больше движение — тем больше вращение
-            const rotation = deltaY / 20;
+            const rotation = Math.max(-1, Math.min(1, deltaY / 20));
 
             this.diskPositions[this.activeDisk] += rotation;
-
-            // сохраняем скорость (для инерции)
-            this.velocity = rotation;
+            this.velocities[this.activeDisk] = rotation;
 
             this.lastMouseY = y;
 
@@ -236,7 +233,7 @@ class JeffersonCylinder {
         window.addEventListener('mouseup', () => {
             if (this.isDragging) {
                 this.isDragging = false;
-                this.startInertia();
+                this.startInertia(this.activeDisk);
             }
         });
     }
@@ -256,23 +253,59 @@ class JeffersonCylinder {
         this.diskPositions[index] = ((this.diskPositions[index] % len) + len) % len;
     }
 
-    startInertia() {
+    startInertia(diskIndex) {
         const friction = 0.95;
 
         const animate = () => {
-            if (Math.abs(this.velocity) < 0.001) {
-                this.velocity = 0;
+            let v = this.velocities[diskIndex];
+
+            if (Math.abs(v) < 0.001) {
+                this.velocities[diskIndex] = 0;
+                this.startSnap(diskIndex); // 👈 ключевой момент
                 return;
             }
 
-            this.diskPositions[this.activeDisk] += this.velocity;
-            this.normalizeDisk(this.activeDisk);
+            this.diskPositions[diskIndex] += v;
+            this.normalizeDisk(diskIndex);
 
-            this.velocity *= friction;
+            this.velocities[diskIndex] *= friction;
 
             this.draw();
 
-            this.animationFrame = requestAnimationFrame(animate);
+            requestAnimationFrame(animate);
+        };
+
+        animate();
+    }
+
+    startSnap(diskIndex) {
+        const target = Math.round(this.diskPositions[diskIndex]);
+
+        const stiffness = 0.15; // "сила притяжения"
+        const damping = 0.8;    // затухание
+
+        let velocity = 0;
+
+        const animate = () => {
+            let pos = this.diskPositions[diskIndex];
+
+            const force = (target - pos) * stiffness;
+            velocity += force;
+            velocity *= damping;
+
+            pos += velocity;
+
+            this.diskPositions[diskIndex] = pos;
+
+            // Условие остановки
+            if (Math.abs(velocity) < 0.001 && Math.abs(target - pos) < 0.001) {
+                this.diskPositions[diskIndex] = target;
+                this.draw();
+                return;
+            }
+
+            this.draw();
+            requestAnimationFrame(animate);
         };
 
         animate();
