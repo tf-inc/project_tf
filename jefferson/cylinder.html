@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Цилиндр Джефферсона - Симулятор</title>
+    <link rel="stylesheet" href="cylinder_style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>⚙️ Цилиндр Джефферсона ⚙️</h1>
+
+        <div class="cylinder-wrapper">
+            <canvas id="cylinderCanvas" width="900" height="350"></canvas>
+        </div>
+
+        <div class="controls">
+            <button id="resetBtn" class="control-btn">⟳ Сбросить</button>
+            <button id="randomizeBtn" class="control-btn">🎲 Случайно</button>
+        </div>
+
+        <div class="disk-panel">
+            <h3>Диски</h3>
+            <div id="diskButtons" class="disk-buttons"></div>
+        </div>
+    </div>
+
+    <script src="cylinder_script.js"></script>
+</body>
+</html>
