@@ -4,13 +4,16 @@ const encryptedKey2 = "faf3c3d5a05cf72e6d45de746826f213dc29213d6c0be10e02afef09f
 
 const encryptedKey3 = "548ed8f7e9283a22b4d7bf2eba15a38cf4bc6c324a8ceccebab6aa02e5a93975bf768d31c19ec065766e68a6b290b4e77dd7c21ed42bb49d5b87c319e4c6235c";
 
-const maxKey = 3;
+const encryptedKey4 = "525dcabed8747e6b7b6bd4639a9f17ce7d5a145cd2e6859c8526f1da15575da4446939819b206fc5ea38ce5cc44af4dd82c12c8d7d1d5c7cab246bb00182e203"
+
+const maxKey = 4;
 
 
 const CORRECT_KEYS = {
     1: encryptedKey1,
     2: encryptedKey2,
-    3: encryptedKey3
+    3: encryptedKey3,
+    4: encryptedKey4
 };
 
 let currentLevel = 0;
@@ -42,12 +45,11 @@ function handleInputCheck(inputElement) {
     const level = parseInt(inputElement.dataset.level);
     let enteredValue = inputElement.value.trim();
 
-    if (level === 3) {
-        enteredValue = normalizeKey(enteredValue); // Добавить эту строку
+    if (level === 3 || level === 4) {
+        enteredValue = normalizeKey(enteredValue);
     }
     entrance = new Stribog();
     let enteredHash = entrance.hashHex(enteredValue);
-
 
 
     if (enteredHash === CORRECT_KEYS[level]) {
