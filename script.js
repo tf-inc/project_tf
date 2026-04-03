@@ -90,6 +90,8 @@ function showSoonMessage() {
     soonMessage.textContent = 'SOON';
     currentLevel = maxKey + 1;
     soonMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    applyTrueTheme();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -103,3 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+function applyTrueTheme() {
+    
+    document.body.classList.add('theme-true');
+}

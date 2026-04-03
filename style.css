@@ -1,3 +1,29 @@
+:root {
+    --primary: #244224;
+    --primary-light: #3a6e3a;
+    --primary-dark: #1a3a1a;
+    --transition-duration: 1.5s;
+}
+
+* {
+    transition: color var(--transition-duration) ease,
+        background-color var(--transition-duration) ease,
+        border-color var(--transition-duration) ease,
+        box-shadow var(--transition-duration) ease,
+        text-shadow var(--transition-duration) ease;
+}
+
+body.theme-true {
+    --primary: #2A182A;
+    --primary-light: #8a5a8a;
+    --primary-dark: #422442;
+}
+
+body.theme-true .logo img {
+    opacity: 0;
+    visibility: hidden;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -6,7 +32,7 @@
 
 body {
     background-color: #000000;
-    color: #244224;
+    color: var(--primary);
     font-family: 'Courier New', Courier, monospace;
     line-height: 1.6;
     min-height: 100vh;
@@ -34,14 +60,15 @@ body {
 
 .logo img {
     max-width: 200px;
-    border: 2px solid #244224;
+    border: 2px solid var(--primary);
     padding: 10px;
+    transition: opacity var(--transition-duration) ease;
 }
 
 .logo pre {
     display: inline-block;
     text-align: left;
-    border: 1px solid #244224;
+    border: 1px solid var(--primary);
     padding: 10px;
     font-size: 0.8rem;
     letter-spacing: 2px;
@@ -49,16 +76,16 @@ body {
 }
 
 a {
-    color: #244224;
+    color: var(--primary);
     text-decoration: none;
 }
 
 a:visited {
-    color: #244224;
+    color: var(--primary);
 }
 
 a:hover {
-    color: #3a6e3a;
+    color: var(--primary-light);
     text-decoration: underline;
 }
 
@@ -66,12 +93,12 @@ a:hover {
 .section-title {
     font-size: 1.5rem;
     font-weight: bold;
-    border-bottom: 2px solid #244224;
+    border-bottom: 2px solid var(--primary);
     padding-bottom: 10px;
     margin-bottom: 25px;
     text-transform: uppercase;
     letter-spacing: 4px;
-    text-shadow: 0 0 5px #244224;
+    text-shadow: 0 0 5px var(--primary);
 }
 
 /* Секция ввода ключей */
@@ -92,8 +119,8 @@ a:hover {
     max-width: 400px;
     padding: 12px 15px;
     background-color: #000000;
-    border: 2px solid #244224;
-    color: #244224;
+    border: 2px solid var(--primary);
+    color: var(--primary);
     font-family: 'Courier New', Courier, monospace;
     font-size: 1.2rem;
     outline: none;
@@ -101,12 +128,12 @@ a:hover {
 }
 
 .key-input:focus {
-    border-color: #3a6e3a;
-    box-shadow: 0 0 10px #244224;
+    border-color: var(--primary-light);
+    box-shadow: 0 0 10px var(--primary);
 }
 
 .key-input::placeholder {
-    color: #1a3a1a;
+    color: var(--primary-dark);
     font-size: 0.9rem;
 }
 
@@ -119,7 +146,7 @@ a:hover {
     font-weight: bold;
     text-align: center;
     padding: 30px;
-    border: 3px dashed #244224;
+    border: 3px dashed var(--primary);
     letter-spacing: 10px;
     animation: blink 2s infinite;
 }
@@ -140,7 +167,7 @@ a:hover {
 .manual-section {
     margin-top: 0;
     padding-top: 10px;
-    border-top: 1px solid #244224;
+    border-top: 1px solid var(--primary);
     position: relative;
     top: -1px;
 }
@@ -151,13 +178,13 @@ a:hover {
     z-index: 10;
     background-color: #000000;
     padding: 10px 0;
-    border-bottom: 2px solid #244224;
+    border-bottom: 2px solid var(--primary);
 }
 
 .manual-content {
     margin-top: 20px;
     padding: 20px;
-    border: 1px solid #244224;
+    border: 1px solid var(--primary);
     background-color: #050505;
 }
 
@@ -165,7 +192,7 @@ a:hover {
     font-size: 1.2rem;
     margin: 20px 0 15px 0;
     letter-spacing: 2px;
-    border-left: 4px solid #244224;
+    border-left: 4px solid var(--primary);
     padding-left: 10px;
 }
 
@@ -180,7 +207,7 @@ a:hover {
 
 .term {
     font-weight: bold;
-    color: #2f6b2f;
+    color: var(--primary-light);
     text-decoration: underline;
     text-decoration-style: dotted;
 }
