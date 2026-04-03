@@ -1,42 +1,16 @@
-const encryptedKey1 = [53, 55, 55, 53, 53, 55];
+const encryptedKey1 = '3d91d3f5cc7098ca1f07fab3f679d829be458dbf295228efb89a6ea2762efdccc474d858de0498993745ba83543f05fc9c544b09b603eccef2881469e9c93bba';
 
+const encryptedKey2 = "faf3c3d5a05cf72e6d45de746826f213dc29213d6c0be10e02afef09ff830e15001f71787b7570facc2a3768f2444c9c6588973cb3692229e765e1421bb251f3";
 
-const encryptedKey2 = [99, 97];
-
-const encryptedKey3 = "=EDMwIzXjlmbvN3XxQTM1kjM";
+const encryptedKey3 = "548ed8f7e9283a22b4d7bf2eba15a38cf4bc6c324a8ceccebab6aa02e5a93975bf768d31c19ec065766e68a6b290b4e77dd7c21ed42bb49d5b87c319e4c6235c";
 
 const maxKey = 3;
 
-function decryptKey1() {
-    return String.fromCharCode(...encryptedKey1.map(c => c - 3));
-}
-
-function decryptKey2() {
-    return String.fromCharCode(...encryptedKey2.map(c => c ^ 0x55));
-}
-
-function encryptKey3(plainKey) {
-    return plainKey.split('').map((char, index) => {
-        return char.charCodeAt(0) ^ index;
-    });
-}
-
-function decryptKey3() {
-    return atob(encryptedKey3.split('').reverse().join(''));
-}
-
-function normalizeKey(key) {
-    const parts = key.split('_');
-    if (parts.length >= 3 && parts[1].toLowerCase() === 'sonic') {
-        return parts[0] + '_sonic_' + parts.slice(2).join('_');
-    }
-    return key;
-}
 
 const CORRECT_KEYS = {
-    1: decryptKey1(),
-    2: decryptKey2(),
-    3: decryptKey3()
+    1: encryptedKey1,
+    2: encryptedKey2,
+    3: encryptedKey3
 };
 
 let currentLevel = 0;
@@ -66,11 +40,10 @@ function createInputElement(placeholderText, level) {
 
 function handleInputCheck(inputElement) {
     const level = parseInt(inputElement.dataset.level);
-    let enteredValue = inputElement.value.trim();
-
-    if (level === 3) {
-        enteredValue = normalizeKey(enteredValue);
-    }
+    entrance = new Stribog();
+    let enteredValue = entrance.hashHex(inputElement.value.trim());
+    
+    
 
     if (enteredValue === CORRECT_KEYS[level]) {
         if (level === maxKey) {
