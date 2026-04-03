@@ -33,6 +33,14 @@ h1 {
     margin-bottom: 5px;
 }
 
+.line-mobile {
+    display: none;
+}
+
+.line-mobile span {
+    display: block;
+}
+
 .subtitle {
     text-align: center;
     color: #6a4a6a;
@@ -205,5 +213,14 @@ canvas {
 
     .disk-control {
         min-width: 65px;
+    }
+
+    .line-desktop {
+        display: none;
+    }
+
+    .line-mobile {
+        display: block;
+        text-align: center;
     }
 }
