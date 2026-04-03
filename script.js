@@ -40,12 +40,17 @@ function createInputElement(placeholderText, level) {
 
 function handleInputCheck(inputElement) {
     const level = parseInt(inputElement.dataset.level);
-    entrance = new Stribog();
-    let enteredValue = entrance.hashHex(inputElement.value.trim());
-    
-    
+    let enteredValue = inputElement.value.trim();
 
-    if (enteredValue === CORRECT_KEYS[level]) {
+    if (level === 3) {
+        enteredValue = normalizeKey(enteredValue); // Добавить эту строку
+    }
+    entrance = new Stribog();
+    let enteredHash = entrance.hashHex(enteredValue);
+
+
+
+    if (enteredHash === CORRECT_KEYS[level]) {
         if (level === maxKey) {
             showSoonMessage();
         }
@@ -62,6 +67,10 @@ function handleInputCheck(inputElement) {
             inputElement.placeholder = `Введите ключ ${level}`;
         }, 1500);
     }
+}
+
+function normalizeKey(key) {
+    return key.toLowerCase();
 }
 
 function showNextInput(level) {
