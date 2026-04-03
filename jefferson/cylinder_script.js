@@ -2,19 +2,17 @@ class JeffersonCylinder {
     constructor(numDisks = 15, alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ') {
         this.numDisks = numDisks;
         this.alphabet = alphabet;
-        this.disks = [];
+        this.disks = ['MGUHDIYNLASVXKWTJBRECQOFPZ', 'UNXBTPLCZYQSDAVWJMKOEHGFRI', 'PQILOTJGYBUKVACRSZXEHMWDFN', 'FCEDVMIWKJBHZPUTLYOXRAGSNQ', 'LUPFZYCQMDHWINGVXATEBOJSRK', 'VNWKEUZBFTXHRGPYAQLDJSCOIM', 'FPGUZBQSWXRYMDOCJHKVLTIANE', 'ZOUKLQAESFPJRCXMHDIWTGVYNB', 'HJAXMLFCSBYQITGNODPKZWEUVR', 'GMIKOCPNTSFRLVUJDYXZHWBQEA', 'QHTMRICXSGYWAEVDPZKNUJBFLO', 'PHNFJXBAEQVIZDOURKLSYTMGCW', 'HJPKTVYLFIQOBRANSZCWMUXDGE', 'TDMWHARGJZXQSLVNCFEPIBKYUO', 'VNRIMBWTJKHUSQDGZAPELXOCYF', 'CYPFKXQBVUMTHRGJSLIEWAODNZ', 'OKVNAURJTWMFPCYEXGHQIBZDSL', 'RVHMSTQKZLPGJBINXYCAUODEFW', 'YPBNXJRACDQHTEILWFUZSVGKOM', 'VTJPLYSKBOUCDEFRINWQMGHZXA', 'CUYWFQMPLZXITEDBRGKHANSJOV', 'DMLCHNKWRGAPSZQOIVYUFTBJEX', 'OFWQZAEURTMXSCJDNLBPYVIGHK', 'QBFTUOYMJPXSEWGZILRDHVKNAC', 'WFPSJKDQZYEXBMLOHNVGUTRCAI', 'ZPYRWCQMSHKJBDLAVGEONITUFX', 'CPJOWXTLMRQIEBHVKYUFSZDNAG', 'FLVMECYUDBKIJXGWHATRQSPNOZ', 'KMAWXUZFJRLCYIGDEHNVQBOSTP', 'AUKWXHNDMLTRYSZPIEBOGVCFJQ', 'HIFWKLSCDOPGQEXJTVBZNUYAMR', 'FHETRLKIOAVDQGUSWXBYCZPNMJ', 'SIHAGXPLFKNUJZBQMTWDYROCEV', 'PLMYRNIKOCGWVHBDXFUESQATZJ', 'HYPOWLXFCMSGTDJBRZVAINUQEK', 'FVBDIJWNXMKLCAOYPGHQTRSZEU']
         this.diskPositions = new Array(numDisks).fill(0);
         this.canvas = document.getElementById('cylinderCanvas');
         this.ctx = this.canvas.getContext('2d');
 
-        // Настройки отображения
         this.diskWidth = 45;
         this.startX = 50;
         this.startY = 50;
         this.rowHeight = 28;
         this.canvas.width = Math.max(900, this.startX * 2 + this.numDisks * this.diskWidth);
 
-        this.initDisks();
         this.initEventListeners();
         this.draw();
         this.updateDiskControls();
@@ -26,22 +24,6 @@ class JeffersonCylinder {
         this.animationFrame = null;
     }
 
-    initDisks() {
-        // Создаём диски с перемешанным алфавитом
-        for (let i = 0; i < this.numDisks; i++) {
-            const shuffled = this.shuffleString(this.alphabet);
-            this.disks.push(shuffled);
-        }
-    }
-
-    shuffleString(str) {
-        const arr = str.split('');
-        for (let i = arr.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [arr[i], arr[j]] = [arr[j], arr[i]];
-        }
-        return arr.join('');
-    }
 
     rotateDisk(diskIndex, delta) {
         // delta: +1 вверх, -1 вниз
@@ -68,16 +50,13 @@ class JeffersonCylinder {
         for (let i = 0; i < this.numDisks; i++) {
             const x = this.startX + i * this.diskWidth;
 
-            // Фон диска
             this.ctx.fillStyle = '#0a050a';
             this.ctx.fillRect(x, this.startY - 8, this.diskWidth - 5, 160);
 
-            // Граница диска
             this.ctx.strokeStyle = '#1a0e1a';
             this.ctx.lineWidth = 1;
             this.ctx.strokeRect(x, this.startY - 8, this.diskWidth - 5, 160);
 
-            // Рисуем строки: ряд -2, -1, 0, +1, +2
             for (let row = -2; row <= 2; row++) {
                 const char = this.getCharAt(i, row);
                 let offset = this.diskPositions[i] - Math.round(this.diskPositions[i]);
@@ -93,7 +72,6 @@ class JeffersonCylinder {
                 this.ctx.textAlign = 'center';
                 this.ctx.textBaseline = 'middle';
 
-                // Только для центрального ряда добавляем лёгкое свечение
                 if (row === 0) {
                     this.ctx.shadowBlur = 6;
                     this.ctx.shadowColor = '#422442';
@@ -107,7 +85,6 @@ class JeffersonCylinder {
 
             this.ctx.shadowBlur = 0;
 
-            // Тонкая разделительная линия между дисками
             if (i < this.numDisks - 1) {
                 this.ctx.beginPath();
                 this.ctx.strokeStyle = '#1a0e1a';
@@ -118,7 +95,6 @@ class JeffersonCylinder {
             }
         }
 
-        // Едва заметная центральная линия
         this.ctx.beginPath();
         this.ctx.strokeStyle = '#2A182A';
         this.ctx.lineWidth = 1;
@@ -261,7 +237,7 @@ class JeffersonCylinder {
 
             if (Math.abs(v) < 0.001) {
                 this.velocities[diskIndex] = 0;
-                this.startSnap(diskIndex); // 👈 ключевой момент
+                this.startSnap(diskIndex);
                 return;
             }
 
@@ -281,8 +257,8 @@ class JeffersonCylinder {
     startSnap(diskIndex) {
         const target = Math.round(this.diskPositions[diskIndex]);
 
-        const stiffness = 0.15; // "сила притяжения"
-        const damping = 0.8;    // затухание
+        const stiffness = 0.15;
+        const damping = 0.8;
 
         let velocity = 0;
 
@@ -313,8 +289,6 @@ class JeffersonCylinder {
 }
 
 
-
-// Запуск при загрузке
 document.addEventListener('DOMContentLoaded', () => {
     new JeffersonCylinder(36, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ');
 });
