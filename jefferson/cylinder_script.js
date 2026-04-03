@@ -52,7 +52,7 @@ class JeffersonCylinder {
     }
 
     getCharAt(diskIndex, rowOffset) {
-        const position = Math.floor(this.diskPositions[diskIndex]);
+        const position = Math.round(this.diskPositions[diskIndex]);
         let charIndex = (position + rowOffset) % this.alphabet.length;
         if (charIndex < 0) charIndex += this.alphabet.length;
         return this.disks[diskIndex][charIndex];
@@ -80,7 +80,7 @@ class JeffersonCylinder {
             // Рисуем строки: ряд -2, -1, 0, +1, +2
             for (let row = -2; row <= 2; row++) {
                 const char = this.getCharAt(i, row);
-                const offset = this.diskPositions[i] % 1;
+                let offset = this.diskPositions[i] - Math.round(this.diskPositions[i]);
                 const y = centerY + (row - offset) * this.rowHeight;
 
                 // Прозрачность: центральный ряд — полная, дальше — тусклее
