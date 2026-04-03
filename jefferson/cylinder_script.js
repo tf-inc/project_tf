@@ -8,7 +8,7 @@ class JeffersonCylinder {
         this.ctx = this.canvas.getContext('2d');
 
         // Настройки отображения
-        this.diskWidth = 60;
+        this.diskWidth = 45;
         this.startX = 50;
         this.startY = 50;
         this.rowHeight = 28;
@@ -316,5 +316,5 @@ class JeffersonCylinder {
 
 // Запуск при загрузке
 document.addEventListener('DOMContentLoaded', () => {
-    new JeffersonCylinder(15, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+    new JeffersonCylinder(36, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ');
 });
