@@ -212,6 +212,84 @@ class JeffersonCylinder {
                 this.startInertia(this.activeDisk);
             }
         });
+
+        this.canvas.addEventListener('touchstart', (e) => {
+            const touch = e.touches[0];
+
+
+
+            const rect = this.canvas.getBoundingClientRect();
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+
+            const diskIndex = this.getDiskIndexFromX(x);
+
+            if (diskIndex !== null) {
+                this.activeDisk = diskIndex;
+                this.isDragging = true;
+                this.lastMouseY = y;
+                this.velocities[diskIndex] = 0;
+
+                this.startTouchX = x;
+                this.startTouchY = y;
+                this.touchMode = null;
+            }
+        }, { passive: false });
+
+        window.addEventListener('touchmove', (e) => {
+            if (!this.isDragging || this.activeDisk === null) return;
+
+            const touch = e.touches[0];
+            const rect = this.canvas.getBoundingClientRect();
+
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+
+            const deltaX = x - this.startTouchX;
+            const deltaY = this.startTouchY - y;
+
+            // Определяем режим только один раз
+            if (!this.touchMode) {
+                const threshold = 5; // защита от случайных движений
+
+                if (Math.abs(deltaX) < threshold && Math.abs(deltaY) < threshold) {
+                    return;
+                }
+
+                if (Math.abs(deltaY) > Math.abs(deltaX)) {
+                    this.touchMode = 'rotate';
+                } else {
+                    this.touchMode = 'scroll';
+                }
+            }
+
+            // Если пользователь скроллит — не мешаем браузеру
+            if (this.touchMode === 'scroll') {
+                return;
+            }
+
+            // 👉 Вращение диска
+            const moveY = this.lastMouseY - y;
+            const rotation = Math.max(-1, Math.min(1, moveY / 15)); // чуть чувствительнее для тача
+
+            this.diskPositions[this.activeDisk] += rotation;
+            this.velocities[this.activeDisk] = rotation;
+
+            this.lastMouseY = y;
+
+            this.normalizeDisk(this.activeDisk);
+            this.draw();
+
+            e.preventDefault(); // ❗ только при вращении
+        }, { passive: false });
+
+        window.addEventListener('touchend', () => {
+            if (this.isDragging) {
+                this.isDragging = false;
+                this.startInertia(this.activeDisk);
+            }
+            this.touchMode = null;
+        });
     }
 
     getDiskIndexFromX(x) {
