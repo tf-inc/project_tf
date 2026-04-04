@@ -1,111 +1,113 @@
-const encryptedKey1 = '3d91d3f5cc7098ca1f07fab3f679d829be458dbf295228efb89a6ea2762efdccc474d858de0498993745ba83543f05fc9c544b09b603eccef2881469e9c93bba';
+(function () {
+    const encryptedKey1 = '3d91d3f5cc7098ca1f07fab3f679d829be458dbf295228efb89a6ea2762efdccc474d858de0498993745ba83543f05fc9c544b09b603eccef2881469e9c93bba';
 
-const encryptedKey2 = "faf3c3d5a05cf72e6d45de746826f213dc29213d6c0be10e02afef09ff830e15001f71787b7570facc2a3768f2444c9c6588973cb3692229e765e1421bb251f3";
+    const encryptedKey2 = "faf3c3d5a05cf72e6d45de746826f213dc29213d6c0be10e02afef09ff830e15001f71787b7570facc2a3768f2444c9c6588973cb3692229e765e1421bb251f3";
 
-const encryptedKey3 = "548ed8f7e9283a22b4d7bf2eba15a38cf4bc6c324a8ceccebab6aa02e5a93975bf768d31c19ec065766e68a6b290b4e77dd7c21ed42bb49d5b87c319e4c6235c";
+    const encryptedKey3 = "548ed8f7e9283a22b4d7bf2eba15a38cf4bc6c324a8ceccebab6aa02e5a93975bf768d31c19ec065766e68a6b290b4e77dd7c21ed42bb49d5b87c319e4c6235c";
 
-const encryptedKey4 = "525dcabed8747e6b7b6bd4639a9f17ce7d5a145cd2e6859c8526f1da15575da4446939819b206fc5ea38ce5cc44af4dd82c12c8d7d1d5c7cab246bb00182e203"
+    const encryptedKey4 = "525dcabed8747e6b7b6bd4639a9f17ce7d5a145cd2e6859c8526f1da15575da4446939819b206fc5ea38ce5cc44af4dd82c12c8d7d1d5c7cab246bb00182e203"
 
-const maxKey = 4;
+    const maxKey = 4;
 
 
-const CORRECT_KEYS = {
-    1: encryptedKey1,
-    2: encryptedKey2,
-    3: encryptedKey3,
-    4: encryptedKey4
-};
+    const CORRECT_KEYS = {
+        1: encryptedKey1,
+        2: encryptedKey2,
+        3: encryptedKey3,
+        4: encryptedKey4
+    };
 
-let currentLevel = 0;
-const inputsContainer = document.getElementById('key-inputs-container');
-const soonMessage = document.getElementById('soon-message');
+    let currentLevel = 0;
+    const inputsContainer = document.getElementById('key-inputs-container');
+    const soonMessage = document.getElementById('soon-message');
 
-function createInputElement(placeholderText, level) {
-    const wrapper = document.createElement('div');
-    wrapper.className = 'input-group';
-    wrapper.id = `input-group-${level}`;
+    function createInputElement(placeholderText, level) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'input-group';
+        wrapper.id = `input-group-${level}`;
 
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.className = 'key-input';
-    input.placeholder = `Введите ключ ${level} (Enter для проверки)`;
-    input.dataset.level = level;
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'key-input';
+        input.placeholder = `Введите ключ ${level} (Enter для проверки)`;
+        input.dataset.level = level;
 
-    input.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            handleInputCheck(e.target);
-        }
-    });
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleInputCheck(e.target);
+            }
+        });
 
-    wrapper.appendChild(input);
-    return wrapper;
-}
-
-function handleInputCheck(inputElement) {
-    const level = parseInt(inputElement.dataset.level);
-    let enteredValue = inputElement.value.trim();
-
-    if (level === 3 || level === 4) {
-        enteredValue = normalizeKey(enteredValue);
+        wrapper.appendChild(input);
+        return wrapper;
     }
-    entrance = new Stribog();
-    let enteredHash = entrance.hashHex(enteredValue);
+
+    function handleInputCheck(inputElement) {
+        const level = parseInt(inputElement.dataset.level);
+        let enteredValue = inputElement.value.trim();
+
+        if (level === 3 || level === 4) {
+            enteredValue = normalizeKey(enteredValue);
+        }
+        entrance = new Stribog();
+        let enteredHash = entrance.hashHex(enteredValue);
 
 
-    if (enteredHash === CORRECT_KEYS[level]) {
-        if (level === maxKey) {
-            showSoonMessage();
+        if (enteredHash === CORRECT_KEYS[level]) {
+            if (level === maxKey) {
+                showSoonMessage();
+            }
+            else {
+                showNextInput(level + 1);
+            }
         }
         else {
-            showNextInput(level + 1);
+            inputElement.classList.add('error');
+            inputElement.value = '';
+            inputElement.placeholder = 'Неверный ключ. Попробуйте снова.';
+            setTimeout(() => {
+                inputElement.classList.remove('error');
+                inputElement.placeholder = `Введите ключ ${level}`;
+            }, 1500);
         }
     }
-    else {
-        inputElement.classList.add('error');
-        inputElement.value = '';
-        inputElement.placeholder = 'Неверный ключ. Попробуйте снова.';
-        setTimeout(() => {
-            inputElement.classList.remove('error');
-            inputElement.placeholder = `Введите ключ ${level}`;
-        }, 1500);
+
+    function normalizeKey(key) {
+        return key.toLowerCase();
     }
-}
 
-function normalizeKey(key) {
-    return key.toLowerCase();
-}
+    function showNextInput(level) {
+        if (level > maxKey) return;
 
-function showNextInput(level) {
-    if (level > maxKey) return;
+        const nextInput = createInputElement(`Введите ключ ${level}`, level);
+        inputsContainer.appendChild(nextInput);
+        currentLevel = level;
+        nextInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        nextInput.querySelector('.key-input').focus();
+    }
 
-    const nextInput = createInputElement(`Введите ключ ${level}`, level);
-    inputsContainer.appendChild(nextInput);
-    currentLevel = level;
-    nextInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    nextInput.querySelector('.key-input').focus();
-}
+    function showSoonMessage() {
+        soonMessage.classList.remove('hidden');
+        soonMessage.textContent = 'SOON';
+        currentLevel = maxKey + 1;
+        soonMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-function showSoonMessage() {
-    soonMessage.classList.remove('hidden');
-    soonMessage.textContent = 'SOON';
-    currentLevel = maxKey + 1;
-    soonMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        applyTrueTheme();
+    }
 
-    applyTrueTheme();
-}
+    document.addEventListener('DOMContentLoaded', () => {
+        const firstInput = createInputElement('Введите ключ 1', 1);
+        inputsContainer.appendChild(firstInput);
+        currentLevel = 1;
 
-document.addEventListener('DOMContentLoaded', () => {
-    const firstInput = createInputElement('Введите ключ 1', 1);
-    inputsContainer.appendChild(firstInput);
-    currentLevel = 1;
-
-    setTimeout(() => {
-        document.querySelector('.key-input')?.focus();
-    }, 100);
-});
+        setTimeout(() => {
+            document.querySelector('.key-input')?.focus();
+        }, 100);
+    });
 
 
-function applyTrueTheme() {
-    
-    document.body.classList.add('theme-true');
-}
+    function applyTrueTheme() {
+
+        document.body.classList.add('theme-true');
+    }
+})();
