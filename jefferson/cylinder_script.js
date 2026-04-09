@@ -93,6 +93,14 @@ class JeffersonCylinder {
                 this.ctx.lineTo(x + this.diskWidth - 5, this.startY + 152);
                 this.ctx.stroke();
             }
+
+            this.ctx.font = `12px 'Courier New', monospace`;
+            this.ctx.textAlign = 'center';
+            this.ctx.textBaseline = 'top';
+            this.ctx.fillStyle = 'rgba(106, 74, 106, 0.7)';
+
+            const numberY = this.startY + 160; // чуть ниже диска
+            this.ctx.fillText(i + 1, x + this.diskWidth / 2 - 2.5, numberY);
         }
 
         this.ctx.beginPath();
