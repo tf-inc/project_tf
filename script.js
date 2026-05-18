@@ -7,7 +7,12 @@
 
     const encryptedKey4 = "525dcabed8747e6b7b6bd4639a9f17ce7d5a145cd2e6859c8526f1da15575da4446939819b206fc5ea38ce5cc44af4dd82c12c8d7d1d5c7cab246bb00182e203"
 
-    const maxKey = 4;
+    const encryptedKey5_v1 = "fb292f58b215899a81b3d8b3a377a55590827c5bd0bee7ff6592a1fd05963ccdc91783246017aea35250863330c81d2b84806834601932e834245b220b5ee28a";
+    const encryptedKey5_v2 = "51052b26f88ca28aa66db587e645764c6b7ba0c90cd75ea4d5e959db30659f8c12c44a023038adac8e751a88f42f295eac2d7d8983e4e38e5fa6261345375772";
+    const encryptedKey5_v3 = "f20c48bc89289c7e180e01e5c869f2625b9658b664b358498a19631d0d07f77370f652f699919833fda34eafdd58a76fe73a514843354b5bfc63d552ed419f53";
+    const encryptedKey5_v4 = "876ebb88d1f859df120b8f6613f2632052d52cf7743c9c8e4b4a7065735573b3bfc27692e2602ff2599e7dceb574635808bbbd60aaa2f2153e3b0140424d9230";
+
+    const maxKey = 5;
 
 
     const CORRECT_KEYS = {
@@ -46,18 +51,27 @@
         const level = parseInt(inputElement.dataset.level);
         let enteredValue = inputElement.value.trim();
 
-        if (level === 3 || level === 4) {
+        if (level === 3 || level === 4 || level === 5) {
             enteredValue = normalizeKey(enteredValue);
         }
         entrance = new Stribog();
         let enteredHash = entrance.hashHex(enteredValue);
 
 
-        if (enteredHash === CORRECT_KEYS[level]) {
-            if (level === maxKey) {
-                showSoonMessage();
+        if (level === 5) {
+            const validHashes = [encryptedKey5_v1, encryptedKey5_v2, encryptedKey5_v3, encryptedKey5_v4];
+            isCorrect = validHashes.includes(enteredHash);
+        } else {
+            isCorrect = (enteredHash === CORRECT_KEYS[level]);
+        }
+
+        if (isCorrect) {
+            if (level === 4) {
+                applyTrueTheme();
             }
-            else {
+            else if (level === maxKey) {
+                showSoonMessage();
+            } else {
                 showNextInput(level + 1);
             }
         }
@@ -92,7 +106,7 @@
         currentLevel = maxKey + 1;
         soonMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-        applyTrueTheme();
+        // applyTrueTheme();
     }
 
     document.addEventListener('DOMContentLoaded', () => {
