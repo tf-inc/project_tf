@@ -119,6 +119,11 @@
         setTimeout(() => {
             document.querySelector('.key-input')?.focus();
         }, 100);
+
+        // Запускаем блуждающую ссылку
+        setTimeout(() => {
+            createWanderingLink();
+        }, 1000); // Небольшая задержка перед появлением
     });
 
 
@@ -171,5 +176,61 @@
                 });
             }, 1000);
         }, 50);
+    }
+
+    function createWanderingLink() {
+        const linkContainer = document.createElement('div');
+        linkContainer.className = 'wandering-link';
+        linkContainer.innerHTML = '<a href="https://disk.yandex.ru/d/SCYP6bd-SFC4xA" target="_blank">когда дроп?</a>';
+        document.body.appendChild(linkContainer);
+
+        function reposition() {
+            // Случайная позиция по краям экрана
+            const side = Math.floor(Math.random() * 4); // 0-3: верх, низ, лево, право
+            const offset = Math.random() * 60 + 20; // Отступ от края 20-80px
+
+            switch (side) {
+                case 0: // верхний край
+                    linkContainer.style.top = offset + 'px';
+                    linkContainer.style.left = 'auto';
+                    linkContainer.style.right = 'auto';
+                    linkContainer.style.bottom = 'auto';
+                    break;
+                case 1: // нижний край
+                    linkContainer.style.bottom = offset + 'px';
+                    linkContainer.style.left = 'auto';
+                    linkContainer.style.right = 'auto';
+                    linkContainer.style.top = 'auto';
+                    break;
+                case 2: // левый край
+                    linkContainer.style.left = offset + 'px';
+                    linkContainer.style.top = 'auto';
+                    linkContainer.style.bottom = 'auto';
+                    linkContainer.style.right = 'auto';
+                    break;
+                case 3: // правый край
+                    linkContainer.style.right = offset + 'px';
+                    linkContainer.style.top = 'auto';
+                    linkContainer.style.bottom = 'auto';
+                    linkContainer.style.left = 'auto';
+                    break;
+            }
+
+            // Показываем элемент
+            linkContainer.style.display = 'block';
+
+            // Через 3 секунды скрываем
+            setTimeout(() => {
+                linkContainer.style.opacity = '0';
+                setTimeout(() => {
+                    linkContainer.style.display = 'none';
+                    linkContainer.style.opacity = '1';
+                    // Через 5 секунд появляемся снова в новом месте
+                    setTimeout(reposition, 5000);
+                }, 500);
+            }, 3000);
+        }
+
+        reposition();
     }
 })();

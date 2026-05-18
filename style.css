@@ -292,3 +292,42 @@ a:hover {
     text-shadow: 0 0 10px var(--primary, #2A182A);
     transform: scale(1.05);
 }
+
+/* Блуждающая ссылка */
+.wandering-link {
+    position: fixed;
+    z-index: 10000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: fadeInOut 0.5s ease;
+}
+
+@keyframes fadeInOut {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.wandering-link a {
+    font-family: 'Courier New', Courier, monospace;
+    color: var(--primary, #244224);
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 8px 15px;
+    border: 2px solid var(--primary, #244224);
+    background-color: #000000;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.wandering-link a:hover {
+    color: var(--primary-light, #3a6e3a);
+    border-color: var(--primary-light, #3a6e3a);
+    transform: scale(1.05);
+}
