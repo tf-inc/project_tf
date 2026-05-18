@@ -68,9 +68,11 @@
         if (isCorrect) {
             if (level === 4) {
                 applyTrueTheme();
+                showNextInput(level + 1);
             }
             else if (level === maxKey) {
-                showSoonMessage();
+                showCompletionScreen();
+                // showSoonMessage();
             } else {
                 showNextInput(level + 1);
             }
@@ -123,5 +125,37 @@
     function applyTrueTheme() {
 
         document.body.classList.add('theme-true');
+    }
+
+    function showCompletionScreen() {
+        // Очищаем контейнер с полями ввода
+        inputsContainer.innerHTML = '';
+
+        // Скрываем сообщение SOON, если оно было
+        soonMessage.classList.add('hidden');
+
+        // Скрываем другие секции (руководство, футер)
+        const manualSection = document.querySelector('.manual-section');
+        const logoFooter = document.querySelector('.logo-footer');
+        const logoHeader = document.querySelector('.logo-header');
+
+        if (manualSection) manualSection.style.display = 'none';
+        if (logoFooter) logoFooter.style.display = 'none';
+        if (logoHeader) logoHeader.style.display = 'none';
+
+        // Создаём центральный блок с ссылкой
+        const completionDiv = document.createElement('div');
+        completionDiv.className = 'completion-container';
+        completionDiv.innerHTML = `
+        <div class="completion-box">
+            <a href="https://forms.gle/3Kra9gjADj5QAiUz8" target="_blank" class="completion-link">
+                Завершить испытание
+            </a>
+        </div>
+    `;
+
+        // Добавляем в контейнер (или прямо в body)
+        document.querySelector('.container').appendChild(completionDiv);
+
     }
 })();
