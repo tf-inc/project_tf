@@ -128,24 +128,19 @@
     }
 
     function showCompletionScreen() {
-        // Очищаем контейнер с полями ввода
-        inputsContainer.innerHTML = '';
 
-        // Скрываем сообщение SOON, если оно было
-        soonMessage.classList.add('hidden');
+        const elementsToHide = [
+            document.querySelector('.logo-header'),
+            document.querySelector('.manual-section'),
+            document.querySelector('.logo-footer'),
+            inputsContainer,
+            soonMessage
+        ];
 
-        // Скрываем другие секции (руководство, футер)
-        const manualSection = document.querySelector('.manual-section');
-        const logoFooter = document.querySelector('.logo-footer');
-        const logoHeader = document.querySelector('.logo-header');
-
-        if (manualSection) manualSection.style.display = 'none';
-        if (logoFooter) logoFooter.style.display = 'none';
-        if (logoHeader) logoHeader.style.display = 'none';
-
-        // Создаём центральный блок с ссылкой
+        // Создаём контейнер сразу, но скрытым
         const completionDiv = document.createElement('div');
         completionDiv.className = 'completion-container';
+        completionDiv.style.opacity = '0';
         completionDiv.innerHTML = `
         <div class="completion-box">
             <a href="https://forms.gle/3Kra9gjADj5QAiUz8" target="_blank" class="completion-link">
@@ -153,9 +148,28 @@
             </a>
         </div>
     `;
-
-        // Добавляем в контейнер (или прямо в body)
         document.querySelector('.container').appendChild(completionDiv);
 
+        // Плавно скрываем старые элементы и показываем новый
+        setTimeout(() => {
+            elementsToHide.forEach(el => {
+                if (el) {
+                    el.style.transition = 'opacity 1s ease';
+                    el.style.opacity = '0';
+                }
+            });
+
+            completionDiv.style.transition = 'opacity 1s ease';
+            completionDiv.style.opacity = '1';
+
+            // Удаляем старые элементы после исчезновения
+            setTimeout(() => {
+                elementsToHide.forEach(el => {
+                    if (el && el.parentNode) {
+                        el.parentNode.removeChild(el);
+                    }
+                });
+            }, 1000);
+        }, 50);
     }
 })();

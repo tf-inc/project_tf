@@ -222,6 +222,16 @@ a:hover {
     display: none;
 }
 
+/* Плавное исчезновение для всех скрываемых элементов */
+.logo-header,
+.manual-section,
+.logo-footer,
+#key-inputs-container,
+.soon-message {
+    transition: opacity 1s ease, visibility 1s ease;
+}
+
+/* Стили для появления контейнера */
 .completion-container {
     position: fixed;
     top: 0;
@@ -233,13 +243,39 @@ a:hover {
     align-items: center;
     background-color: #000000;
     z-index: 1000;
+    opacity: 0;
+    animation: fadeIn 1.5s ease forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .completion-box {
     border: 3px solid var(--primary, #2A182A);
     padding: 40px 60px;
     background-color: #050505;
+    transform: scale(0.8);
+    animation: scaleIn 0.8s ease forwards;
     transition: all var(--transition-duration, 1.5s) ease;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 .completion-link {
@@ -254,4 +290,5 @@ a:hover {
 .completion-link:hover {
     color: var(--primary-light, #8a5a8a);
     text-shadow: 0 0 10px var(--primary, #2A182A);
+    transform: scale(1.05);
 }
